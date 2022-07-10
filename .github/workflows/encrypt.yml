@@ -1,0 +1,29 @@
+name: Encrypt Page
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  encrypt:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install staticrypt
+      run: sudo npm install -g staticrypt
+    - name: Encrypt index
+      run: staticrypt main.html ${{ secrets.DECRYPTION_PASSPHRASE }} -f password_template.html -o index.html --title "Login" --instructions "Please enter password..." --decrypt-button "Open Page" --embed true
+    - name: Commit files
+      run: |
+        git config --local user.name "Github Action"
+        git add .
+        git commit -m "encrypted files"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+        force: true
