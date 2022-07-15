@@ -15,7 +15,7 @@ jobs:
     - name: Install staticrypt
       run: sudo npm install -g staticrypt
     - name: Encrypt index
-      run: staticrypt main.html ${{ secrets.DECRYPTION_PASSPHRASE }} -f password_template.html -o index.html --title "Login" --instructions "Please enter password..." --decrypt-button "Open Page" --embed true
+      run: staticrypt main.html ${{ secrets.DECRYPTION_PASSPHRASE }} -f password_template.html -o index.html --title "Login" --instructions "This is a test website, use the password 'test' to enter." --decrypt-button "Open Page" --embed true
     - name: Commit files
       run: |
         git config --local user.name "Github Action"
