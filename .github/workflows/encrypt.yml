@@ -21,6 +21,10 @@ jobs:
           then
             rm .staticrypt.json
           fi
+      # - name: Embed assets
+      #   run: |
+      #     pip3 install beautifulsoup4
+      #     python3 embed.py
       - name: Encrypt index
         run: staticrypt main.html ${{ secrets.DECRYPTION_PASSPHRASE }} -f password_template.html -o index.html --title "Login" --instructions "This is a test website, use the password 'test' to enter." --decrypt-button "Open Page" --embed true
       - name: Commit files

@@ -1,2 +1,4 @@
-exclude: 
+exclude:
   - main.html
+  - assets/hidden
+  - embed.py
