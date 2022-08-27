@@ -5,6 +5,8 @@ This can be useful for information or events that should not be available to eve
 
 To check the [demo](https://a-nau.github.io/password-protected-website-template) use the password `test`.
 
+![Demo](assets/hidden/demo.gif)
+
 **Disclaimer**: Please be aware, that I (or the dependencies) might have missed something, so do not assume this to be bullet proof. Do not share bank information or similar this way.
 
 ## Usage
