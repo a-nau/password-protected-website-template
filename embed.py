@@ -13,20 +13,29 @@ def embed_assets() -> None:
     html_string = html_path.open("r").read()
     soup = BeautifulSoup(html_string)
     for img in soup.findAll("img"):
-        img_path = Path(img["src"])
-        if img_path.exists():
-            img["src"] = f"data:{get_image_mime(img_path)};base64,{b64encode(img_path)}"
+        if img.has_attr("src"):
+            img_path = Path(img["src"])
+            if img_path.exists():
+                img[
+                    "src"
+                ] = f"data:{get_image_mime(img_path)};base64,{b64encode(img_path)}"
+                print(f"Replacing: {img_path}")
     for css in soup.findAll("link"):
-        css_path = Path(css["href"])
-        if css_path.exists():
-            if css_path.suffix == ".css":
-                css["href"] = f"data:text/css;base64,{b64encode(css_path)}"
-            elif css_path.suffix == ".ico":
-                css["href"] = f"data:image/x-icon;base64,{b64encode(css_path)}"
+        if css.has_attr("href"):
+            css_path = Path(css["href"])
+            if css_path.exists():
+                if css_path.suffix == ".css":
+                    css["href"] = f"data:text/css;base64,{b64encode(css_path)}"
+                    print(f"Replacing: {css_path}")
+                elif css_path.suffix == ".ico":
+                    css["href"] = f"data:image/x-icon;base64,{b64encode(css_path)}"
+                    print(f"Replacing: {css_path}")
     for js in soup.findAll("script"):
-        js_path = Path(js["src"])
-        if js_path.exists() and js_path.suffix == ".js":
-            js["href"] = f"data:text/css;base64,{b64encode(js_path)}"
+        if js.has_attr("src"):
+            js_path = Path(js["src"])
+            if js_path.exists() and js_path.suffix == ".js":
+                js["href"] = f"data:text/css;base64,{b64encode(js_path)}"
+                print(f"Replacing: {js_path}")
 
     new_html_path = ROOT / OUTPUT_FILE_NAME
     new_html_path.open("w").write(str(soup.prettify()))
