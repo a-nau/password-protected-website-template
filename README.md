@@ -28,7 +28,7 @@ To customize the website:
 
 ### Encrypted Assets
 
-If you want your assets to be encrypted as well uncomment the commented lines in the [`encrypt.yml`](.github/workflows/encrypt.yml).
+If you want your assets to be encrypted as well uncomment the commented lines in the [`encrypt.yml`](.github/workflows/encrypt.yml) and remove the duplicate line during `Encrypt index`.
 Note, this only replaces all directly linked images, CSS and JavaScript file in the HTML document with an in-place base64 representation.
 Thus, your relative links in files will probably not work anymore, since their location changed.
 
