@@ -11,7 +11,7 @@ OUTPUT_FILE_NAME = "index.html"
 def embed_assets() -> None:
     html_path = ROOT / INPUT_FILE_NAME
     html_string = html_path.open("r").read()
-    soup = BeautifulSoup(html_string)
+    soup = BeautifulSoup(html_string, features="html.parser")
     for img in soup.findAll("img"):
         if img.has_attr("src"):
             img_path = Path(img["src"])
