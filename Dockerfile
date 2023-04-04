@@ -7,7 +7,7 @@ RUN apt-get clean && \
 RUN mkdir -p /code
 WORKDIR /code
 
-RUN npm install -g staticrypt
+RUN npm install -g staticrypt@2.4.0
 RUN pip install beautifulsoup4
 
 CMD python embed.py ; staticrypt index.html ${PASSWORD} -f password_template.html -o index.html --title "Login" --instructions "This is a test website, use the password 'test' to enter." --decrypt-button "Open Page" --embed true
