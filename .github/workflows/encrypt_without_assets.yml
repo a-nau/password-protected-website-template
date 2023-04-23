@@ -2,7 +2,7 @@ name: Encrypt Page with Assets
 
 on:
   push:
-    branches: [main]
+    branches: [feature/staticrypt3]
 
 jobs:
   encrypt:
@@ -16,6 +16,8 @@ jobs:
           apt-get install -y git
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/checkout@v3
+        with:
+          ref: feature/staticrypt3
       - name: Install staticrypt
         run: npm install -g staticrypt@3.*
       - name: Remove template salt (if necessary)
@@ -25,13 +27,9 @@ jobs:
           then
             rm .staticrypt.json
           fi
-      - name: Embed assets
-        run: |
-          pip install beautifulsoup4
-          python embed.py
       - name: Encrypt index
         run: >
-          staticrypt index.html -p ${{ secrets.DECRYPTION_PASSPHRASE }} --short
+          staticrypt main.html -p ${{ secrets.DECRYPTION_PASSPHRASE }} --short
           --template "password_template.html"
           --template-title "Login"
           --template-instructions "This is a test website, use the password 'test' to enter."
@@ -40,7 +38,7 @@ jobs:
           --template-color-secondary "#e4e4e4"
       - name: Clean up
         run: |
-          mv encrypted/index.html index.html
+          mv encrypted/main.html index.html
           rm -r encrypted
       - name: Commit files
         run: |
@@ -52,5 +50,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          branch: feature/staticrypt3
           force: true
