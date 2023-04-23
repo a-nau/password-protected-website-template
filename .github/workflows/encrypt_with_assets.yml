@@ -14,6 +14,7 @@ jobs:
         run: |
           apt-get clean && apt-get update -y
           apt-get install -y git
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/checkout@v3
         with:
           ref: feature/staticrypt3
