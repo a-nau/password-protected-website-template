@@ -12,7 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install staticrypt
-        run: npm install -g staticrypt@3.*
+        run: |
+          apt-get clean && apt-get update -y
+          apt-get install -y git
+          npm install -g staticrypt@3.*
       - name: Remove template salt (if necessary)
         run: |
           current_salt="$(grep -oP '(?<="salt": ")[^"]*' .staticrypt.json)"
