@@ -10,12 +10,13 @@ jobs:
     container:
       image: nikolaik/python-nodejs:python3.11-nodejs20-slim
     steps:
-      - uses: actions/checkout@v2
-      - name: Install staticrypt
+      - name: Install Git
         run: |
           apt-get clean && apt-get update -y
           apt-get install -y git
-          npm install -g staticrypt@3.*
+      - uses: actions/checkout@v2
+      - name: Install staticrypt
+        run: npm install -g staticrypt@3.*
       - name: Remove template salt (if necessary)
         run: |
           current_salt="$(grep -oP '(?<="salt": ")[^"]*' .staticrypt.json)"
@@ -49,5 +50,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          branch: feature/staticrypt3
           force: true
