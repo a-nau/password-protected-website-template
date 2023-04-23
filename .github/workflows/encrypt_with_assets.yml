@@ -35,7 +35,7 @@ jobs:
           --template-color-secondary "#e4e4e4"
       - name: Clean up
         run: |
-          mv encrypted/main.html index.html
+          mv encrypted/index.html index.html
           rm -r encrypted
       - name: Commit files
         run: |
