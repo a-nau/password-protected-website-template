@@ -25,13 +25,13 @@ jobs:
           pip install beautifulsoup4
           python embed.py
       - name: Encrypt index
-        run: |
-          staticrypt index.html -p ${{ secrets.DECRYPTION_PASSPHRASE }} --short \
-          --template "password_template.html" \
-          --template-title "Login" \
-          --template-instructions "This is a test website, use the password 'test' to enter." \
-          --template-button "Open Page"\
-          --template-color-primary "#113e9f" \
+        run: >
+          staticrypt index.html -p ${{ secrets.DECRYPTION_PASSPHRASE }} --short
+          --template "password_template.html"
+          --template-title "Login"
+          --template-instructions "This is a test website, use the password 'test' to enter."
+          --template-button "Open Page"
+          --template-color-primary "#113e9f"
           --template-color-secondary "#e4e4e4"
       - name: Clean up
         run: |
