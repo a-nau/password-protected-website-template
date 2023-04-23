@@ -20,17 +20,39 @@ To check the [demo](https://a-nau.github.io/password-protected-website-template)
 To customize the website:
 
 - You can customize the login page
-  - adjust the [encrypt.yml](.github/workflows/encrypt.yml), i.e. line `18` to set the title, instructions and button name
-    - `run: staticrypt main.html ${{ secrets.TEMP_PASSWORD }} -f password_template.html -o index.html --title "Login Title" --instructions "You Login Instructions" --decrypt-button "Your Login Button" --embed true`
+
+  - adjust the [encrypt_with_assets.yml](.github/workflows/encrypt_with_assets.yml), i.e. the "Encrypt index" step to set the title, instructions and button name
+
+    ```yaml
+    - name: Encrypt index
+      run: >
+        staticrypt index.html -p ${{ secrets.DECRYPTION_PASSPHRASE }} --short
+        --template "password_template.html"
+        --template-title "Login"
+        --template-instructions "This is a test website, use the password 'test' to enter."
+        --template-button "Open Page"
+        --template-color-primary "#113e9f"
+        --template-color-secondary "#e4e4e4"
+    ```
+
   - For details and to change the full layout, see [StatiCrypt](https://github.com/robinmoisson/staticrypt)
+
 - Edit the `main.html` which will be shown to visitors after encryption (the encrypted version, that is hosted is `index.html`)
   - Assets can be used as usual and will not be encrypted
 
 ### Encrypted Assets
 
-If you want your assets to be encrypted as well uncomment the commented lines in the [`encrypt.yml`](.github/workflows/encrypt.yml) and remove the duplicate line during `Encrypt index`.
+By default encryption of assets is enables, since the workflow [`encrypt_with_assets.yml`](.github/workflows/encrypt_with_assets.yml) is active.
 Note, this only replaces all directly linked images, CSS and JavaScript file in the HTML document with an in-place base64 representation.
 Thus, your relative links in files will probably not work anymore, since their location changed.
+
+If you do not want to encrypt assets remove the asset folder from the `exclude`s of the [`_config.yml`](_config.yml) and cut the following lines from [`encrypt_with_assets.yml`](.github/workflows/encrypt_with_assets.yml) and paste them into [`encrypt_without_assets.yml`](.github/workflows/encrypt_without_assets.yml)
+
+```yaml
+on:
+  push:
+    branches: [main]
+```
 
 ### Local Usage
 

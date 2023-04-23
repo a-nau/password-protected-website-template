@@ -1,0 +1,56 @@
+name: Encrypt Page with Assets
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  encrypt:
+    runs-on: ubuntu-latest
+    container:
+      image: nikolaik/python-nodejs:python3.11-nodejs20-slim
+    steps:
+      - name: Install Git
+        run: |
+          apt-get clean && apt-get update -y
+          apt-get install -y git
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: actions/checkout@v3
+      - name: Install staticrypt
+        run: npm install -g staticrypt@3.*
+      - name: Remove template salt (if necessary)
+        run: |
+          current_salt="$(grep -oP '(?<="salt": ")[^"]*' .staticrypt.json)"
+          if [ "${{ github.repository }}" != "a-nau/password-protected-website-template" ] && [ "$current_salt" == "9fdd6a30e734b0ce7de31a0a221786bf" ];
+          then
+            rm .staticrypt.json
+          fi
+      - name: Embed assets
+        run: |
+          pip install beautifulsoup4
+          python embed.py
+      - name: Encrypt index
+        run: >
+          staticrypt index.html -p ${{ secrets.DECRYPTION_PASSPHRASE }} --short
+          --template "password_template.html"
+          --template-title "Login"
+          --template-instructions "This is a test website, use the password 'test' to enter."
+          --template-button "Open Page"
+          --template-color-primary "#113e9f"
+          --template-color-secondary "#e4e4e4"
+      - name: Clean up
+        run: |
+          mv encrypted/index.html index.html
+          rm -r encrypted
+      - name: Commit files
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "encrypted files"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+          force: true
