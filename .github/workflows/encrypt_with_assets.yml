@@ -25,7 +25,7 @@ jobs:
           pip install beautifulsoup4
           python embed.py
       - name: Encrypt index
-        run:
+        run: |
           staticrypt index.html -p ${{ secrets.DECRYPTION_PASSPHRASE }} --short \
           --template "password_template.html" \
           --template-title "Login" \
