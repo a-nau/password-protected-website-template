@@ -42,7 +42,7 @@ To customize the website:
 
 ### Encrypted Assets
 
-By default encryption of assets is enables, since the workflow [`encrypt_with_assets.yml`](.github/workflows/encrypt_with_assets.yml) is active.
+By default encryption of assets is enabled, since the workflow [`encrypt_with_assets.yml`](.github/workflows/encrypt_with_assets.yml) is active.
 Note, this only replaces all directly linked images, CSS and JavaScript file in the HTML document with an in-place base64 representation.
 Thus, your relative links in files will probably not work anymore, since their location changed.
 
