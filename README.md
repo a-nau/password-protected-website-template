@@ -46,13 +46,11 @@ By default encryption of assets is enabled, since the workflow [`encrypt_with_as
 Note, this only replaces all directly linked images, CSS and JavaScript file in the HTML document with an in-place base64 representation.
 Thus, your relative links in files will probably not work anymore, since their location changed.
 
-If you do not want to encrypt assets remove the asset folder from the `exclude`s of the [`_config.yml`](_config.yml) and cut the following lines from [`encrypt_with_assets.yml`](.github/workflows/encrypt_with_assets.yml) and paste them into [`encrypt_without_assets.yml`](.github/workflows/encrypt_without_assets.yml)
+If you do not want to encrypt assets 
+- remove the asset folder from the `exclude`s of the [`_config.yml`](_config.yml),
+- [`encrypt_with_assets.yml`](.github/workflows/encrypt_with_assets.yml) to `encrypt_with_assets._yml`, and 
+- rename [`encrypt_without_assets._yml`](.github/workflows/encrypt_without_assets.yml) to `encrypt_with_assets.yml` 
 
-```yaml
-on:
-  push:
-    branches: [main]
-```
 
 ### Local Usage
 

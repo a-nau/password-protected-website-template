@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: nikolaik/python-nodejs:python3.11-nodejs20-slim
+    permissions: # See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idpermissions
+      contents: write
+      pages: write
     steps:
       - name: Install Git
         run: |
@@ -21,9 +24,14 @@ jobs:
       - name: Remove template salt (if necessary)
         run: |
           current_salt="$(grep -oP '(?<="salt": ")[^"]*' .staticrypt.json)"
-          if [ "${{ github.repository }}" != "a-nau/password-protected-website-template" ] && [ "$current_salt" == "9fdd6a30e734b0ce7de31a0a221786bf" ];
-          then
-            rm .staticrypt.json
+          if [ "$current_salt" != "9fdd6a30e734b0ce7de31a0a221786bf" ]; then
+            echo "Salt has been updated already"
+          else
+            echo "Salt has not been updated already"
+            if [ "${{ github.repository }}" != "a-nau/password-protected-website-template" ]; then
+              echo "Removed salt to regenerate"
+              rm .staticrypt.json
+            fi
           fi
       - name: Embed assets
         run: |
