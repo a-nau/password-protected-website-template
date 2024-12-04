@@ -34,7 +34,8 @@ def embed_assets() -> None:
         if js.has_attr("src"):
             js_path = Path(js["src"])
             if js_path.exists() and js_path.suffix == ".js":
-                js["href"] = f"data:text/css;base64,{b64encode(js_path)}"
+                js["type"] = "text/javascript"
+                js["src"] = f"data:text/javascript;base64,{b64encode(js_path)}"
                 print(f"Replacing: {js_path}")
 
     new_html_path = ROOT / OUTPUT_FILE_NAME
